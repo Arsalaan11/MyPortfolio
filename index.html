@@ -201,25 +201,78 @@
 			<h3 style="text-align: center;">Get In Touch</h3>
 
 			<form id="contact-form" action="https://formspree.io/f/mknpodgo" method="POST">
-				<a name="contact"></a>
+				<p id="head"></p>
+            <p style="text-align:left;">First Name: <input type="text" name="contact_name" id="firstname"
+                    placeholder="First Name" required></p>
+            <p style="text-align:left;">Last Name: <input type="text" name="contact_name" id="lastname"
+                    placeholder="Last Name"></p>
+            <p style="text-align:left;">Birthday: <input type="date" name="bday"></p>
+            <p style="text-align:left;">Your Gender: <input type="radio" name="gender" id="gen" value="Male"> Male
+                <input type="radio" name="gender" id="gen" value="Female"> Female</p>
 
-				<label>Name</label>
-				<input class="input-field" type="text" name="name">
+            <p style="text-align:left;">Email id: <input required type="email" id="contact_email"
+                    placeholder="abc@gmail.com"></p>
 
-				<label>Subject</label>
-				<input class="input-field" type="text" name="subject">
+            <p style="text-align:left;">Phone Number: <input type="tel" id="contact_phone" placeholder="Number"></p>
 
-				<label>Email</label>
-				<input class="input-field" type="text" name="email">
-
-				<label>Message</label>
-				<textarea class="input-field" name="message"></textarea>
-
-				<input id="submit-btn" type="submit" value="Send">
+            <p id="p4" style="text-align:left;">Subject:
+                <select name="Subject">
+                    <option disabled="disabled" selected="selected">Choose option</option>
+                    <option>Subject 1</option>
+                    <option>Subject 2</option>
+                    <option>Subject 3</option>
+                </select></p>
+            <input type="submit" id="login" value="Send the Data!" style="color:black"> 
 			</form>
 		</div>
 	</section>
 
+	<script>
+
+
+
+        // document.getElementById("head").innerHTML = first + " " + last;
+        // document.getElementById("head").innerHTML = email + " " + phone;
+
+        document.getElementById("login").addEventListener("click", function(e) {
+            e.preventDefault();
+            var first = document.getElementById("firstname").value;
+            var last = document.getElementById("lastname").value;
+            var email = document.getElementById("contact_email").value;
+            var phone = document.getElementById("contact_phone").value; 
+            var gender = document.getElementById("gen").value;
+            console.log(first);
+            console.log(last);
+            console.log(email);
+            console.log(phone);
+            console.log(gender);
+            
+            webengage.user.login(email);
+
+            webengage.user.setAttribute({
+             "we_first_name" : first,
+            "we_last_name" : last,
+            "we_email" : email,
+            "we_gender" : gender,
+        });
+        webengage.track("loginClicked",{
+            "first_name" : first,
+            "last_name" : last,
+            "email": email,
+            "gender": gender,
+        })
+
+        webengage.notification.options('defaultRender', false);
+        webengage.onReady(function(){
+	    document.getElementById("login").onclick = function () {
+		webengage.notification.render();
+	};
+});
+
+    });
+
+
+    </script>
 	<script type="text/javascript" src="js/script.js"></script>
 </body>
 
